@@ -1,0 +1,79 @@
+<% include ../partials/header.ejs %>
+
+    <div class="container">
+      <div class="row home-box1">
+        <div class="text-light">
+        <div class="col-md-8">
+          <h3 class="list_title"> <%= title %></h3>
+            <form class="form" method="post"  onsubmit="timeChange()">
+            <!--hidden input to capture numberOfQuestion and question type and timezone offset-->
+            <input type="hidden" class="form-control" id="NameTextField"
+                placeholder="Survey Topic" name="numberOfQuestion" value="<%= numberOfQuestion %>" required>
+            <input type="hidden" class="form-control" id="NameTextField"
+                placeholder="Question Type" name="type" value="<%= type %>" required>
+            <input type="hidden" class="form-control" id="timezone"
+                placeholder="Local Time zone offset" name="timeOffset" value="" required>
+
+              <div class="form-group">
+                <label class="label_Styling" for="NameTextField">Survey Topic</label>
+                <input type="text" class="form-control" id="NameTextField"
+                placeholder="Survey Topic" name="topic" value="<%= topic %>" required>
+              </div>
+
+            <div class="form-group">
+                <label class="label_Styling" for="NameTextField">Start Date</label>
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control datepicker" data-date-format="mm/dd/yyyy"  name="startDate"  value="" required/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+
+              <div class="form-group">
+                <label class="label_Styling" for="NameTextField">Expire Date</label>
+                <div class='input-group date' id='datetimepicker2'>
+                    <input type='text' class="form-control" name="expireDate" value="" required/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+     
+          
+            <% for (let count = 1; count <= numberOfQuestion; count++) { %>
+              <div class="form-group">
+                <label class="label_Styling" for="NameTextField">Question Topic <%= count %></label>
+                <input type="text" class="form-control" id="NameTextField"
+                placeholder="Question" name="questionTopic<%=count%>" value="" required>
+              </div>
+              <% if(type == 1 || type == 2) { %>
+               <div class="form-group">
+                <label class="label_Styling" for="CostTextField">Answer 1</label>
+                <input type="text" class="form-control" id="CostTextField"
+                placeholder="Answer One" name="questionAns<%=count%>1" value=""  required>
+              </div>
+              <div class="form-group">
+                <label class="label_Styling" for="CostTextField">Answer 2</label>
+                <input type="text" class="form-control" id="CostTextField"
+                placeholder="Answer Two" name="questionAns<%=count%>2" value=""  required>
+              </div>
+              <div class="form-group">
+                <label class="label_Styling" for="CostTextField">Answer 3</label>
+                <input type="text" class="form-control" id="CostTextField"
+                placeholder="Answer Three (Optional)" name="questionAns<%=count%>3" value="">
+              </div>
+              <% } %>
+               <% } %>
+
+               <div class="container text-center">
+              <button type="submit" class="btn btn-outline-primary">Submit</button>
+              <a href="/" class="btn btn-outline-warning">Cancel</a>
+               </div>
+            </form>
+        </div>
+      </div>
+    </div>
+    </div>
+
+<% include ../partials/footer.ejs %>

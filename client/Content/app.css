@@ -1,0 +1,71 @@
+body{
+ background-color: black;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+
+}
+
+
+.home-box{
+background: rgba(70, 60, 60, 0.8);
+
+display: flex;
+min-height: 50vh;
+flex-direction: column;
+background-attachment: fixed;
+
+}
+
+.home-box1{
+  background: rgba(70, 60, 60, 0.2);
+  
+  display: flex;
+  min-height: 50vh;
+  flex-direction: column;
+  background-attachment: fixed;
+  
+  }
+
+
+.navbar{
+background: rgba(0, 0, 0, 0.2);
+}
+.fat{
+  color: #4399b363;
+  text-decoration: bisque;
+}
+
+.mt-10 {
+  margin-top: 5%;
+
+}
+
+.mt-5 {
+  margin-top: 5%;
+
+}
+
+footer{
+    background: rgba(0, 0, 0, 0.2);
+    position: fixed;
+    height: 50px;
+    bottom: 0;
+    width: 100%;
+
+}
+
+.login{
+  background: rgba(0, 0, 0, 0.6);
+   
+  margin-top: 5%;  
+  color: rgb(57, 72, 83);
+  
+   font-size: 18px;
+
+
+}
+
+
+

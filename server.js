@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 /**
- * Module dependencies.
+ *  Module dependencies.
  */
 
-let app = require('./server/config/app');
-let debug = require('debug')('comp308-w2019-lesson3b:server');
+let app = require('./server/app');
+let debug = require('debug')('comp308-w2017-lesson3b:server');
 let http = require('http');
 
 /**

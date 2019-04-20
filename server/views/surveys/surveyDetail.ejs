@@ -1,0 +1,60 @@
+<% include ../partials/header.ejs %>
+ 
+    <div class="container">
+      <div class="row home-box1">
+        <div class="col-md-offset-3 col-md-6">
+        <h3 class="text-info"><%= title %></h3>
+        <br>
+        <form class="form" method="post">
+
+            <input type="hidden" class="form-control" id="NameTextField"
+                    placeholder="Survey Topic" name="surveyTopic" value="<%= title %>" required>
+            <input type="hidden" class="form-control" id="NameTextField"
+                    placeholder="User ID" name="userId" value="<%= user %>" required>
+            <input type="hidden" class="form-control" id="NameTextField"
+                    placeholder="Questions" name="numberofQuestions" value="<%= surveys.questions.length %>" required>
+            <input type="hidden" class="form-control" id="NameTextField"
+                placeholder="Question Type" name="type" value="<%= type %>" required>
+            
+            <% for (let count = 0; count < surveys.questions.length; count++) { %>
+            <fieldset class="form-group">
+            <input type="hidden" class="form-control" id="NameTextField"
+                placeholder="Question Topic" name="questionTopic<%=count%>"  
+                value="<%= surveys.questions[count].questionTopic %>" required>
+            <legend><%= surveys.questions[count].questionTopic %></legend> 
+             <% if(type == 1 || type == 2) { %>
+                <% for (let i = 0; i<surveys.questions[count].questionAns.length; i++) { %>   
+                     <div class="form-check">
+                     <label class="form-check-label">
+                          <% if (surveys.questions[count].questionAns[i].answer != "") { %>
+                            <input type="radio" class="form-check-input" name="question<%=count%>" value="<%= surveys.questions[count].questionAns[i].answer %>">
+                            <%= surveys.questions[count].questionAns[i].answer %>
+                           <% } else { %>
+                           <input type="hidden" class="form-check-input" name="question<%=count%>" value="<%= surveys.questions[count].questionAns[i].answer %>">
+                            <%= surveys.questions[count].questionAns[i].answer %>
+                          <% }  %>
+                     </label>
+                     </div>
+                     <br>     
+                    <% } %> 
+                 <% } else if (type==3) {%>   
+                      <div class="form-group">
+                        <label for="Textarea">Your Answer</label>
+                        <textarea class="form-control" id="Textarea" rows="3" name = "question<%=count%>"></textarea>
+                      </div> 
+               <% } %>
+               
+            <% } %>
+            <fieldset class="form-group text-right">
+            <a href="/surveys/mySurveys" class="btn btn-primary"><i class="fa fa-undo"></i> Back</a>
+            </fieldset>
+        
+         </form>
+         </div>
+      </div>
+   </div>
+
+
+
+ 
+<% include ../partials/footer.ejs %>

@@ -1,97 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><%= title %></title>
-    <!-- CSS Section-->
-    <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/@fortawesome/fontawesome-free/css/all.min.css" />
-    <link rel="stylesheet" href="/Content/app.css" />
+    <!-- CSS SECTION -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href='/Content/app.css' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" rel="stylesheet">
+
+ 
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="/">COMP308</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
+
+
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-transparent" >
+      <a class="navbar-brand" href="/">XResearch</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
-          <% if(title == "Home") { %>
-          <li class="nav-item active"><% } else { %></li>
-
-          <li class="nav-item">
-            <% } %>
-
-            <a class="nav-link" href="/"
-              ><i class="fas fa-lg fa-igloo"></i> Home
-              <span class="sr-only">(current)</span></a
-            >
+          <% if(title == "Surveys List") { %>
+          <li class="nav-item active">
+            <a class="nav-link" href="/surveys">Take Survey</a>
           </li>
-
-          <% if(title == "About") { %>
-          <li class="nav-item active"><% } else { %></li>
-
-          <li class="nav-item">
-            <% } %>
-
-            <a class="nav-link" href="/about"
-              ><i class="fa fa-lg fa-info"></i> About</a
-            >
-          </li>
-
-          <% if(title == "Products") { %>
-          <li class="nav-item active"><% } else { %></li>
-
-          <li class="nav-item">
-            <% } %>
-
-            <a class="nav-link" href="/products"
-              ><i class="fa fa-lg fa-briefcase"></i> Products</a
-            >
-          </li>
-
-          <% if(title == "Services") { %>
-          <li class="nav-item active"><% } else { %></li>
-
-          <li class="nav-item">
-            <% } %>
-
-            <a class="nav-link" href="/services"
-              ><i class="fa fa-lg fa-birthday-cake"></i> Services</a
-            >
-          </li>
-
-          <% if(title == "Contact") { %>
-          <li class="nav-item active"><% } else { %></li>
-
-          <li class="nav-item">
-            <% } %>
-
-            <a class="nav-link" href="/contact"
-              ><i class="fa fa-lg fa-phone"></i> Contact</a
-            >
-          </li>
+          <% } else { %>
+  
+            <li><a class="nav-link" href="/surveys"></i>Take Survey</a></li>
+  
+          <% } %>
 
           <% if(typeof displayName == 'string' && displayName) { %>
-            <li class="navbar-text"><i class="fas fa-lg fa-user"></i> 
-              Welcome, <%= displayName %></li>
-            <li class="nav-item"><a href="/logout" class="nav-link">
-              <i class="fas fa-lg fa-sign-out-alt"></i> Logout</a></li>
-          <% } else { %>
-            <li class="nav-item"><a href="/login" class="nav-link">
-              <i class="fas fa-lg fa-sign-in-alt"></i> Login</a></li>
-          <% } %>
+            
+            <% if(title == "My Surveys List") { %>
+
+              <li class="nav-item">
+                  <a class="nav-link " href="/surveys/mySurveys">My Surveys</a>
+                </li>
+                <% } else { %>
+        
+                  <li><a class="nav-link" href="/surveys/mySurveys">My Surveys</a></li>
+        
+                <% } %>
+
+                <% if(title == "Create Survey") { %>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/surveys/initial">Create</a>
+                    </li>
+                    <% } else { %>
+        
+                      <li><a class="nav-link" href="/surveys/initial"></i>Create</a></li>
+
+                <% } %>  
+
+                <% if(title == "User Profile") { %>
+
+                  <li class="nav-item">
+                      <a class="nav-link" href="../users/profile">Profile</a>
+                    </li>
+                    <% } else { %>
+                      <li><a class="nav-link" href="/users/profile"></i>Profile</a></li>
+
+                <% } %>
+
+
+
+                
+                <% } %> 
+              
+
+
+
+
         </ul>
+
+
+         <% if(typeof displayName == 'string' && displayName) { %>
+  
+            <span class="lead text-info"><%= displayName %></span>
+  
+            <a class="btn btn-lg btn-outline-danger"  href="/users/logout"><i class="fa fa-sign-out"></i> Logout</a>
+  
+          <% } else { %>
+  
+            <a class="btn btn-lg btn-outline-info" href="/users/login"><i class="fa fa-sign-in"></i> Login</a>
+            
+          <% } %>
+
       </div>
     </nav>
+
+    </body>
+    </html>
+
+  

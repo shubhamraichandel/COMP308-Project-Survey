@@ -1,38 +1,50 @@
+
 <% include ../partials/header.ejs %>
 
 <main class="container">
-    <% if(messages.length > 0) { %>
-        <div class="alert alert-danger">
-            <%= messages %>
-        </div>
-    <% } %>
-    <div class="row">
-        <div class="col-md-offset-4 col-md-4">
-            <h1>Please Login</h1>
-            <form method="POST" autocomplete="off">
-                <fieldset class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" class="form-control" 
-                    name="username" placeholder="Enter Username" 
-                    id="username" required autofocus autocomplete="off">
-                </fieldset>
-                <fieldset class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" class="form-control" 
-                    name="password" placeholder="Enter Password" 
-                    id="password" required autocomplete="off">
-                    or
-                    <a href="/register">Register Here</a>
-                </fieldset>
-                <fieldset class="form-group text-right">
-                    <input type="submit" class="btn btn-success" value="Login">
-                    <a href="/">
-                        <input type="button" class="btn btn-warning" value="Cancel">
-                    </a>
-                </fieldset>
-            </form>
+<div class="login ">
+<% if (messages.length > 0) { %>
+        <div class="alert alert-danger"><%= messages %></div>
+      <% } %>
+   <div class="row  text-light">
+        <div class="col-md-6 col-md-offset-4 ">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="text-center text-info">Login</h4>
+                <div class="panel-body">
+                    <form method="post" class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-3 control-label">
+                            Username:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="username" placeholder="Username" required autofocus/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-3 control-label">
+                            Password:</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" name="password"  placeholder="Password" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    </div>
+                    <div class="form-group last">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <input type="submit" class="btn btn-outline-success btn-lg" value="Log In"/>
+                            <a href="/">
+                                 <input type="button" class="btn btn-lg  btn-outline-danger " value="Cancel"/>
+                            </a>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+                <div class="panel-footer">
+                    Not Registred? <a class="text-primary" href="/users/register">Register here</a></div>
+            </div>
         </div>
     </div>
-</main>
+      </div>
+    </main>
 
 <% include ../partials/footer.ejs %>

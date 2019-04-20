@@ -1,0 +1,38 @@
+<% include ../partials/header.ejs %>
+
+	<main class="container">
+	<!-- Display flash messages  -->
+	<% if (messages.length > 0) { %>
+        <div class="alert alert-danger"><%= messages %></div>
+      <% } %>
+		<div class="row text-light">
+            <div class="col-md-offset-4 col-md-4">
+                <h3 class="text-info"> Update User Profile</h3>
+                <form method="post">
+                    <fieldset class="form-group">
+                        <label class="label_Styling" for="username">Username: *</label>
+                        <input name="username" type="text" class="form-control" value="<%= users.username %>" readonly/>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label class="label_Styling" for="email">Email: *</label>
+                        <input name="email" type="email" class="form-control" value="<%= users.email %>" required autofocus />
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label class="label_Styling" for="displayName">Display Name: *</label>
+                        <input name="displayName" type="text" class="form-control" value="<%= users.displayName %>" required />
+                    </fieldset>
+                    <fieldset class="form-group text-right">
+                        <input type="submit" class="btn btn-outline-success" value=" Edit "/>
+                        <a href="/">
+                            <input type="button" class="btn btn-outline-warning" value="Cancel"/>
+                        </a>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+	</main>
+
+
+
+<% include ../partials/footer.ejs %>

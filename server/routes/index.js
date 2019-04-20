@@ -1,38 +1,18 @@
+// modules required for routing
 let express = require('express');
 let router = express.Router();
 
+// require the index controller
 let indexController = require('../controllers/index');
 
-
-/* GET home page. */
-//router.get('/', indexController.displayHomePage);
-
-/* GET about page. */
-//router.get('/about', indexController.displayAboutPage);
-
-/* GET products page. */
-//router.get('/products', indexController.displayProductsPage);
-
-/* GET services page. */
-//router.get('/services', indexController.displayServicesPage);
+/* GET home page. wildcard */
+router.get('/', (req, res, next) => {
+  indexController.DisplayHome(req, res);
+});
 
 /* GET contact page. */
-//router.get('/contact', indexController.displayContactPage);
-
-/* GET - displays the Login Page */
-//router.get('/login', indexController.displayLoginPage);
-
-/* POST - processes the Login Page */
-router.post('/login', indexController.processLoginPage);
-
-/* GET - displays the User Registration Page */
-//router.get('/register', indexController.displayRegisterPage);
-
-/* POST - processes the User Registration Page */
-router.post('/register', indexController.processRegisterPage);
-
-/* GET - perform user logout */
-router.get('/logout', indexController.performLogout);
-
+router.get('/contact', (req, res, next) => {
+  indexController.DisplayContact(req, res);
+});
 
 module.exports = router;
