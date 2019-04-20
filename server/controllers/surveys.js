@@ -14,13 +14,8 @@ var schema = require('../models/results')();
 let moment = require('moment-timezone');
 
 
-
-
-// read and display the survey list
-module.exports.ReadSurveyList = (req, res) => {
-    //get today's date
+module.exports.DisplaySurveyList = (req, res) => {
     let currentDate = new Date();
-    //only show the expireDate is after currentDate
     survey.find({ 
         expireDate: { $gt: currentDate },
         startDate : { $lt: currentDate }
@@ -39,7 +34,7 @@ module.exports.ReadSurveyList = (req, res) => {
 }
 
 // Display create survey ejs page
-module.exports.DisplayAdd = (req, res) => {
+module.exports.DisplayAddSurvey = (req, res) => {
 
     let query = require('url').parse(req.url, true).query;
     let topic = query.topic;
@@ -63,20 +58,13 @@ module.exports.DisplayAdd = (req, res) => {
 }
 
 // Create a new survey and insert it into the db
-module.exports.CreateSurvey = (req, res) => {
-    try {
-
-
+module.exports.ProcessAddSurvey = (req, res) => {
+    try {       
         
-        
-        //create question objects
         let numberOfQuestion = req.body.numberOfQuestion;
 
-        //let Question = questionSchema;
-        //let Answer = answerSchema;
         let questionArray = [];
         let type = req.body.type;
-        //create questions accorder to the numberOfQuestion
         for (var i = 1; i <= numberOfQuestion; ++i) {
            if(type == 1 || type == 2){
                if(req.body['questionAns' + i + '3'] != ""){
@@ -116,43 +104,18 @@ module.exports.CreateSurvey = (req, res) => {
         }
 
         console.log(questionArray);
-        //console.log(req.body.userid);
         console.log(questionArray[0].questionAns);
 
-
-        // get a reference to the id from the url
-        //let id = mongoose.Types.ObjectId.createFromHexString(req.params.id);
+        let currentDate = new Date();
         let newSurvey = survey({
             "topic": req.body.topic,
             "user": req.user._id,
             "type":type,
             "createDate": currentDate,
             "startDate" : req.body.startDate,
-            "expireDate":  req.body.expireDate,//req.body.date,
+            "expireDate": req.body.expireDate,
             "questions": questionArray,
-            /* schema model template
-            [
-                { "questionTopic" : req.body.questionTopic1,
-                  "questionAns" : 
-                  [
-                      { "answer" : req.body.questionAns11 },
-                      { "answer" : req.body.questionAns12 },
-                      { "answer" : req.body.questionAns13 }                               
-                  ],
-                  "type" : 1
-                },
-                {
-                  "questionTopic" : req.body.questionTopic2,
-                  "questionAns" : 
-                  [
-                      { "answer" : req.body.questionAns21 },
-                      { "answer" : req.body.questionAns22 },
-                      { "answer" : req.body.questionAns23 }                               
-                  ],
-                  "type" : 1
-                }
-            ]*/
-
+            
         });
 
 
@@ -161,7 +124,7 @@ module.exports.CreateSurvey = (req, res) => {
                 console.log(err);
                 res.end(err);
             } else {
-                res.redirect('/surveys/mySurveys');
+                res.redirect('/surveys/userSurveys');
             }
         });
     }
@@ -171,13 +134,10 @@ module.exports.CreateSurvey = (req, res) => {
     }
 }
 
-// display the survey page
-// find survey by survey id
-module.exports.DisplayResponse = (req, res) => {
+module.exports.DisplayResponsePage = (req, res) => {
 
     try {
-        // get a reference to the id from the url
-        let id = mongoose.Types.ObjectId.createFromHexString(req.params.id);
+        let id = req.params.id;
 
         // find one survey by its id
         survey.findById(id, (err, surveys) => {
@@ -202,7 +162,7 @@ module.exports.DisplayResponse = (req, res) => {
 }
 
 // Process the response survey request
-module.exports.ResponseSurvey = (req, res) => {
+module.exports.ProcessResponsePage = (req, res) => {
     let numberofQuestions = req.body.numberofQuestions;
     console.log(numberofQuestions);
     let questionArray = [];
@@ -216,7 +176,7 @@ module.exports.ResponseSurvey = (req, res) => {
         questionArray.push(question);
     }
 
-    let id = mongoose.Types.ObjectId.createFromHexString(req.params.id);
+    let id = req.params.id;
     let newResponse = answerSchema({
         "surveyID":id,
         "surveyTopic": req.body.surveyTopic,
@@ -241,7 +201,7 @@ module.exports.ResponseSurvey = (req, res) => {
 }
 
 // Display surveys list by user id
-module.exports.ReadUserSurvey = (req, res) => {
+module.exports.DisplayUserSurvey = (req, res) => {
     let userId = req.user._id;
      //only show the surveys created by the user
     survey.find({ user: userId }, (err, surveys) => {
@@ -260,9 +220,9 @@ module.exports.ReadUserSurvey = (req, res) => {
 }
 
 //display the survey detail page
-module.exports.ViewMySurvey =  (req, res) => {
+module.exports.DisplaySurveyDetails =  (req, res) => {
     try {
-       let id = mongoose.Types.ObjectId.createFromHexString(req.params.id);
+       let id = req.params.id;
         // find one survey by its id
         survey.findById(id, (err, surveys) => {
             if (err) {
@@ -288,7 +248,7 @@ module.exports.ViewMySurvey =  (req, res) => {
 // Delete the survey by the survey id
 module.exports.DeleteSurvey = (req, res) => {
         // get a reference to the id from the url
-        let id = mongoose.Types.ObjectId.createFromHexString(req.params.id);
+        let id = req.params.id;
 
     survey.remove({_id: id}, (err) => {
       if(err) {
@@ -307,14 +267,13 @@ module.exports.DisplayInitialPage = (req, res) => {
     res.render('surveys/init', {
         title: "Create Survey",
         surveys: '',
-        games: '',
         displayName: req.user.displayName,
         userid: req.user._id
     });
 }
 
 //Go to next step to input questions and answers
-module.exports.GotoCreatePage = (req, res) => {
+module.exports.DisplayAddPage = (req, res) => {
     //
     console.log(req.body.numberOfQuestion);
     console.log(req.body.topic);
@@ -326,245 +285,13 @@ module.exports.GotoCreatePage = (req, res) => {
 }
 
 
-//below are new functionalities :statistics and excel report
-
-//view the  survey statistics by survey id
-module.exports.ViewSurveyStatistics = (req, res) => {
-        // get a reference to the id from the url
-    let id = mongoose.Types.ObjectId.createFromHexString(req.params.id);
-
-    survey.find({_id: id}, (err,surveys) => {
-      if(err) {
-        console.log(err);
-        res.end(err);
-      } else {
-          console.log("called."),
-          answerSchema.find({"surveyID":id},(err,answers)=>{
-            if(err) {
-                 console.log(err);
-                 res.end(err);
-             } else {
-                 try{
-                        let respondents = answers.length;
-                        if(respondents==0)
-                        {
-                            throw "no respondents yet.";
-                        }                        
-                            console.log("respondents");
-                            console.log(respondents);
-
-                            let numberOfQuestion = answers[0].questions.length;
-                            console.log("numberOfQuestion");
-                            console.log(numberOfQuestion);
-                            let result_ = {}
-                            for(let count = 0;count<numberOfQuestion;count++)
-                            {
-                                let part = {}  ;
-                                let type = surveys[0].type;
-                                part['type'] = type;
-                                part['total'] = 0;
-                                switch(type){
-                                    case 1:
-                                    {
-                                    let ans0 = surveys[0].questions[count].questionAns[0];
-                                    console.log(ans0);
-                                    let ans1 = surveys[0].questions[count].questionAns[1];
-                                    console.log(ans1);
-                                    let ans2 = surveys[0].questions[count].questionAns[2];
-                                    console.log(ans2);
-                                    part["topic"] = surveys[0].questions[count].questionTopic;
-                                    part[ans0['answer']] = 0;
-                                    part[ans1['answer']] = 0;
-                                    part[ans2['answer']] = 0;
-                                    for(let player=0;player<respondents;player++){
-                                    let oneAns = answers[player].questions[count].questionAns;
-                                    console.log(oneAns);
-                                    switch(oneAns) {
-                                        case ans0['answer']:
-                                        part[ans0['answer']]++;
-                                        break;
-                                        case ans1['answer']:
-                                        part[ans1['answer']]++;
-                                        break;
-                                        case ans2['answer']:
-                                        part[ans2['answer']]++;
-                                        break;
-                                        default:
-                                            { }
-                                        }
-                                      }   
-                                    }
-                                    break;
-                                    case 2:
-                                    {
-                                    let ans0 = surveys[0].questions[count].questionAns[0];
-                                    console.log(ans0);
-                                    let ans1 = surveys[0].questions[count].questionAns[1];
-                                    console.log(ans1);
-                                    let ans2 = {};
-                                    if(surveys[0].questions[count].questionAns.length>2)
-                                    {
-                                        ans2 = surveys[0].questions[count].questionAns[2];
-                                    }
-                                    else
-                                    {
-                                        ans2 = {'answer':"NA"};
-                                    }
-                                    
-                                    part["topic"] = surveys[0].questions[count].questionTopic;
-                                    part[ans0['answer']] = 0;
-                                    part[ans1['answer']] = 0;
-                                    part[ans2['answer']] = 0;
-                                    for(let player=0;player<respondents;player++){
-                                    let oneAns = answers[player].questions[count].questionAns;
-                                    console.log(oneAns);
-                                    switch(oneAns) {
-                                        case ans0['answer']:
-                                        part[ans0['answer']]++;
-                                        break;
-                                        case ans1['answer']:
-                                        part[ans1['answer']]++;
-                                        break;
-                                        case ans2['answer']:
-                                        part[ans2['answer']]++;
-                                        break;
-                                        default:
-                                            { }
-                                        }
-                                      }   
-
-                                    }
-                                    break;
-                                    case 3:
-                                    {
-                                         part["topic"] = surveys[0].questions[count].questionTopic;
-                                         ans0 = {'answer':"NA1"};
-                                         ans1 = {'answer':"NA2"};
-                                         ans2 = {'answer':"NA3"};
-                                         part[ans0['answer']] = 0;
-                                         part[ans1['answer']] = 0;
-                                         part[ans2['answer']] = 0;
-                                        for(let player=0;player<respondents;player++){
-                                         part['total'] ++;
-                                          }
-
-                                    }
-                                    break;
-                                    default:
-                                    {
-
-                                    }
-                               //end of switch block
-                                }
-
-                    result_[count] = part;
-
-                 }
-
-                  console.log(result_);
-
-                  schema.Results.remove({"surveyID":id},(err,results)=>{});
 
 
-                  let newResult = new schema.Results({
-                      "surveyID":id,
-                      "createDate":Date.now
-                  });
-                  console.log(newResult);
-                  let keys = Object.keys(result_);
-                  for(var count = 0;count<keys.length;count++)
-                  {
-                      let quetionTopic = result_[keys[count]]['topic'];
-                      console.log(quetionTopic);
-                      let singleResult = result_[keys[count]];
-                      let keys_ = Object.keys(singleResult);
-                      let type = result_[keys[count]]['type'];
-                      let total = 0;
-                      if(type==3)
-                      {
-                          console.log("type 3 called.")
-                        total = result_[keys[count]]['total'];
-      
-                      }
-                      else
-                      {
-                          total = singleResult[keys_[3]]+singleResult[keys_[4]]+singleResult[keys_[5]];
-                      }
 
-                      result_[keys[count]]['total'] = total;
-
-                      let newSingleResult = new schema.SingleResult({
-                          "questionTopic":quetionTopic,
-                          "ans":{
-                              "a1":keys_[3],
-                              "a1result":singleResult[keys_[3]],
-                               "a2":keys_[4],
-                              "a2result":singleResult[keys_[4]],
-                               "a3":keys_[5],
-                              "a3result":singleResult[keys_[5]],
-                              "total":total
-                          }
-
-                      });
-                      //console.log(newSingleResult);
-                      newResult.answers.push(newSingleResult);
-
-                  }
-                  console.log(newResult);
-                   console.log("saved the new stastistics.");
-                  schema.Results.create(newResult, (err, survey) => {
-                        if(err) {
-                        console.log(err);
-                         res.end(err);
-                        } else {
-       
-                         res.render('surveys/statisticsDetails', {
-                             title: "view statistics",
-                             surveyID:id,
-                             result: result_,
-                             displayName: req.user.displayName
-                        });
-                         }}
-     
-                     );
-                 }
-                 catch(err){
-                    let userId = req.user._id;
-                    //only show the surveys created by the user
-                     survey.find({ user: userId }, (err, surveys) => {
-                    if (err) {
-                        return console.error(err);
-                    }
-                    else {
-                     
-                    //req.flash('errorMessage', 'No errors, you\'re doing fine');
-                    //res.locals.messages = req.flash();
-                    //alert("no one answers this survey yet.");
-                     //res.redirect('/surveys/mySurveys');
-                    res.render('surveys/userSurvey', {
-                    title: 'My Surveys List',
-                    messages: 'this survey has no answers',
-                    surveys: surveys,
-                    displayName: req.user.displayName,
-                    });
-                    }
-                });
-            }
-          }
-
-          });
-      }
-    });
-}
-
-
-// export to excel file.
+// https://www.npmjs.com/package/node-excel-export we used for exporting xlsx file
 module.exports.exportToExcel = (req, res) => {
 
-    let id = mongoose.Types.ObjectId.createFromHexString(req.params.id);
-
-    console.log(id);
-
+    let id = req.params.id;
 var styles = {
   headerDark: {
     fill: {
@@ -626,37 +353,30 @@ var styles = {
 
 
           var specification = {
-    topic_name: { // <- the key should match the actual data key 
-    displayName: 'Topic', // <- Here you specify the column header 
-    headerStyle: styles.headerDark, // <- Header style 
-    cellStyle: function(value, row) { // <- style renderer function 
-      // if the status is 1 then color in green else color in red 
-      // Notice how we use another cell value to style the current one 
+    topic_name: { 
+    displayName: 'Topic', 
+    headerStyle: styles.headerDark, 
+    cellStyle: function(value, row) {  
       return (row.status_id == 1) ? styles.cellGreen : {fill: {fgColor: {rgb: 'FFFF0000'}}}; // <- Inline cell style is possible  
     },
-    width: 120 // <- width in pixels 
+    width: 120 
   },
   first_ans: {
     displayName: 'first_ans',
-    headerStyle: styles.headerDark,
-    // cellFormat: function(value, row) { // <- Renderer function, you can access also any row.property 
-    //   return (value == 1) ? 'Active' : 'Inactive';
-    // },
-    width: '10' // <- width in chars (when the number is passed as string) 
+    headerStyle: styles.headerDark,   
+    width: '10'  
   },
   first_ans_res: {
     displayName: 'first_ans_res',
     headerStyle: styles.headerDark,
-    cellStyle: styles.cellPink, // <- Cell style 
-    width: '10' // <- width in pixels 
+    cellStyle: styles.cellPink, 
+    width: '10' 
   },
    second_ans: {
     displayName: 'second_ans',
     headerStyle: styles.headerDark,
-    // cellFormat: function(value, row) { // <- Renderer function, you can access also any row.property 
-    //   return (value == 1) ? 'Active' : 'Inactive';
-    // },
-    width: '10' // <- width in chars (when the number is passed as string) 
+    
+    width: '10' 
   },
   second_ans_res: {
     displayName: 'second_ans_res',
@@ -697,12 +417,11 @@ var styles = {
 // Create the excel report. 
 // This function will return Buffer 
 var report = excel.buildExport(
-  [ // <- Notice that this is an array. Pass multiple sheets to create multi sheet report 
+  [ 
     {
-      name: 'Sheet name', // <- Specify sheet name (optional) 
-      //heading: heading, // <- Raw heading array (optional) 
-      specification: specification, // <- Report specification 
-      data: dataset // <-- Report data 
+      name: 'Sheet name', 
+      specification: specification, 
+      data: dataset 
     }
   ]
 );
