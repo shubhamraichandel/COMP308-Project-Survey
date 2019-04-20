@@ -6,7 +6,7 @@ let router = express.Router();
 
 // require the users controller for authentication
 let usersController = require('../controllers/users');
-let auth = usersController.auth;
+let auth = usersController.RequireAuth;
 
 // require the survey controller 
 let surveysController = require('../controllers/surveys');
