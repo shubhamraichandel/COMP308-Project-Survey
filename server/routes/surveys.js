@@ -63,10 +63,6 @@ router.get('/delete/:id',auth, (req, res, next) => {
   surveysController.DeleteSurvey(req, res);
 });
 
-// get -- view the  survey statistics by survey id
-router.get('/statistics/:id',auth, (req, res, next) => {
-  surveysController.ViewSurveyStatistics(req, res);
-});
 
 // get -- export  survey statistics by survey id
 router.get('/excel/:id',auth, (req, res, next) => {

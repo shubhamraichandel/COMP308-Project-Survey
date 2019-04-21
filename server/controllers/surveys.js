@@ -41,10 +41,7 @@ module.exports.DisplayAddSurvey = (req, res) => {
     let numberOfQuestion = query.numberOfQuestion;
     let type = query.type;
 
-    /*
-    let topic = req.params.topic;
-    let numberOfQuestion = req.params.numberOfQuestion;
-    let type = req.params.type;*/
+  
 
     res.render('surveys/create', {
         title: "Create Survey",
