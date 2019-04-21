@@ -1,9 +1,9 @@
 /**
-File name: app.js
-Author: COMP308 Group 3
-Website name: Its Survey
-Description: the controller file which contains all functions for site app
-*/
+<!-- /** Author   : Group 13
+ *  App Name : XResearch
+ *  
+ */
+
 // modules required for the project
 let express = require('express');
 let path = require('path'); // part of node.js core

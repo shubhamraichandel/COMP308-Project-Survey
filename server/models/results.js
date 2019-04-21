@@ -1,3 +1,7 @@
+/** Author   : Group 13
+ *  App Name : XResearch
+ *  
+ */
 
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;

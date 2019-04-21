@@ -1,3 +1,9 @@
+/** Author   : Group 13
+ *  App Name : XResearch
+ *  
+ */
+
+
 
 // Display the Home Page
 module.exports.DisplayHome = (req, res) => {

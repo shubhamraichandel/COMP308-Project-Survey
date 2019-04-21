@@ -1,4 +1,7 @@
-
+/** Author   : Group 13
+ *  App Name : XResearch
+ *  
+ */
 // require modules for our User Model
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema; //alias for mongoose Schema

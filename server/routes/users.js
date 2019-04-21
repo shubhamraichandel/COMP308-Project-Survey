@@ -1,4 +1,7 @@
-
+/** Author   : Group 13
+ *  App Name : XResearch
+ *  
+ */
 // modules required for routing
 let express = require('express');
 let router = express.Router();
