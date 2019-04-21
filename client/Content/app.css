@@ -1,5 +1,6 @@
 body{
- background-color: black;
+  background-image: url(http://sijcc.org/wp-content/uploads/2015/07/22776_sky_moon_night_sky_with_moon.jpg); 
+  
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -9,7 +10,7 @@ body{
 
 
 .home-box{
-background: rgba(70, 60, 60, 0.8);
+background: rgba(0, 0, 0, 0.8);
 
 display: flex;
 min-height: 50vh;
@@ -19,7 +20,7 @@ background-attachment: fixed;
 }
 
 .home-box1{
-  background: rgba(70, 60, 60, 0.2);
+ background: rgba(0, 0, 0, 0.8);
   
   display: flex;
   min-height: 50vh;
